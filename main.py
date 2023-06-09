@@ -40,7 +40,7 @@ if __name__ == '__main__':
         host_raw = os.environ.get('INPUT_HOST')
         username = os.environ.get('INPUT_USERNAME')
         password = os.environ.get('INPUT_PASSWORD')
-        private_key = os.environ.get('INPUT_PRIVATE_KEY')
+        private_key = os.environ.get('INPUT_KEY')
         asyncio.run(run(source_dir, target_dir, host_raw, username, password, private_key))
     except (OSError, asyncssh.Error) as exc:
         sys.exit(f'SSH connection failed: ' + str(exc))
