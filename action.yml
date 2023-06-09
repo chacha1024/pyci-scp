@@ -1,0 +1,23 @@
+name: 'SCP Transfer Files'
+description: 'SCP Transfer Files/Folders in Linux'
+author: 'Zahl Lau'
+inputs:
+  host:
+    description: 'scp remote host e.g. 1.2.3.4:22 or 1.2.3.4:22,5.6.7.8:234'
+  username:
+    description: 'login username'
+  password:
+    description: 'login password'
+  key:
+    description: 'ssh private key'
+  target:
+    description: 'remote path'
+  source:
+    description: 'local file'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+
+branding:
+  icon: 'copy'
+  color: 'yellow'
