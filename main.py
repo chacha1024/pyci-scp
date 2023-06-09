@@ -12,6 +12,7 @@ async def run_scp(source_dir, target_dir, host, port, username, password=None, p
             port=int(port),
             username=username,
             password=password,
+            known_hosts=None,
             client_keys=client_keys
     ) as conn:
         await asyncssh.scp(srcpaths=source_dir, dstpath=(conn, f'{target_dir}/'))
