@@ -15,13 +15,8 @@ async def run_scp(source_dir, target_dir, host, port, username, password=None, p
             known_hosts=None,
             client_keys=client_keys
     ) as conn:
-        basedir = os.path.abspath(os.path.dirname(__file__))
-        for entry in os.listdir(basedir):
-            src = os.path.join(basedir, entry)
-            dst = os.path.join(target_dir, entry)
-            if os.path.isfile(src):
-                print(f'Starting upload {src} to {dst}')
-                await asyncssh.scp(srcpaths=src, dstpath=(conn, f'{dst}'))
+        print(f'Starting upload {source_dir} to {target_dir}')
+        await asyncssh.scp(srcpaths=source_dir, dstpath=(conn, f'{target_dir}'), recurse=True, preserve=True)
         print('ok!')
 
 
