@@ -6,7 +6,7 @@ import asyncssh
 
 
 async def run_scp(source_dir, target_dir, host, port, username, password=None, private_key=None) -> None:
-    client_keys = [private_key] if private_key else []
+    client_keys = [asyncssh.import_private_key(private_key)] if private_key else []
     async with asyncssh.connect(
             host,
             port=int(port),
