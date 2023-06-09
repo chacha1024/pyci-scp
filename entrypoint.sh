@@ -2,4 +2,4 @@
 
 set -eu
 
-sh -c "/bin/python /app/main.py"
+sh -c "python /app/main.py"
