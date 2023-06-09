@@ -39,8 +39,8 @@ async def run(source_dir, target_dir, host_raw, username, password=None, private
 
 if __name__ == '__main__':
     try:
-        source_dir = os.environ.get('INPUT_SOURCE_DIR')
-        target_dir = os.environ.get('INPUT_TARGET_DIR')
+        source_dir = os.environ.get('INPUT_SOURCE')
+        target_dir = os.environ.get('INPUT_TARGET')
         host_raw = os.environ.get('INPUT_HOST')
         username = os.environ.get('INPUT_USERNAME')
         password = os.environ.get('INPUT_PASSWORD')
