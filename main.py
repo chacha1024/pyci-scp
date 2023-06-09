@@ -16,6 +16,7 @@ async def run_scp(source_dir, target_dir, host, port, username, password=None, p
             client_keys=client_keys
     ) as conn:
         print(f'{host}: Starting remove {target_dir}')
+        await conn.run(f'mkdir -p {target_dir}')
         await conn.run(f'rm -rf {target_dir}')
         await conn.run(f'mkdir -p {target_dir}')
         print(f'{host}: Starting upload {source_dir} to {target_dir}')
