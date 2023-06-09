@@ -14,6 +14,8 @@ inputs:
     description: 'remote path'
   source:
     description: 'local file'
+  proxy:
+    description: 'only support socks5 proxy e.g. user:password@host:port'
 runs:
   using: 'docker'
   image: 'Dockerfile'
