@@ -8,6 +8,9 @@ RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
 	&& pip install --upgrade pip \
 	--no-cache-dir \
 	&& pip install -r requirements.txt \
-	--no-cache-dir
+	--no-cache-dir \
 
-ENTRYPOINT ["/app/entrypoint.sh"]
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
