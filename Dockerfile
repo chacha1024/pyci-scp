@@ -10,6 +10,4 @@ RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
 	&& pip install -r requirements.txt \
 	--no-cache-dir
 
-COPY entrypoint.sh /entrypoint.sh
-
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/app/entrypoint.sh"]
