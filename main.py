@@ -29,8 +29,9 @@ async def run(source_dir, target_dir, host_raw, username, password=None, private
         host_raw_list.append(host_raw)
     for raw in host_raw_list:
         host, port = raw.split(':')
-        tasks.append(run_scp(source_dir, target_dir, host, port, username, password, private_key))
-    await asyncio.gather(*tasks, return_exceptions=True)
+        await run_scp(source_dir, target_dir, host, port, username, password, private_key)
+        # tasks.append(run_scp(source_dir, target_dir, host, port, username, password, private_key))
+    # await asyncio.gather(*tasks, return_exceptions=True)
 
 
 if __name__ == '__main__':
