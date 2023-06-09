@@ -15,9 +15,12 @@ async def run_scp(source_dir, target_dir, host, port, username, password=None, p
             known_hosts=None,
             client_keys=client_keys
     ) as conn:
-        print(f'Starting upload {source_dir} to {target_dir}')
+        print(f'{host}: Starting remove {target_dir}')
+        await conn.run(f'rm -rf {target_dir}')
+        await conn.run(f'mkdir -p {target_dir}')
+        print(f'{host}: Starting upload {source_dir} to {target_dir}')
         await asyncssh.scp(srcpaths=source_dir, dstpath=(conn, f'{target_dir}'), recurse=True, preserve=True)
-        print('ok!')
+        print(f'{host}: ok!')
 
 
 async def run(source_dir, target_dir, host_raw, username, password=None, private_key=None):
@@ -31,11 +34,11 @@ async def run(source_dir, target_dir, host_raw, username, password=None, private
         host_raw_list.append(host_raw)
     for raw in host_raw_list:
         host, port = raw.split(':')
-        print(f'scping: {host}:{port}')
-        await run_scp(source_dir, target_dir, host, port, username, password, private_key)
-        print(f'scp success: {host}:{port}')
-        # tasks.append(run_scp(source_dir, target_dir, host, port, username, password, private_key))
-    # await asyncio.gather(*tasks, return_exceptions=True)
+        print(f'Scping: {host}:{port}')
+        # await run_scp(source_dir, target_dir, host, port, username, password, private_key)
+        # print(f'scp success: {host}:{port}')
+        tasks.append(run_scp(source_dir, target_dir, host, port, username, password, private_key))
+    await asyncio.gather(*tasks, return_exceptions=True)
 
 
 if __name__ == '__main__':
