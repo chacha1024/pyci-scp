@@ -29,7 +29,9 @@ async def run(source_dir, target_dir, host_raw, username, password=None, private
         host_raw_list.append(host_raw)
     for raw in host_raw_list:
         host, port = raw.split(':')
+        print(f'scping: {host}:{port}')
         await run_scp(source_dir, target_dir, host, port, username, password, private_key)
+        print(f'scp success: {host}:{port}')
         # tasks.append(run_scp(source_dir, target_dir, host, port, username, password, private_key))
     # await asyncio.gather(*tasks, return_exceptions=True)
 
