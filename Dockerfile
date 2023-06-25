@@ -4,6 +4,9 @@ COPY . /app
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 WORKDIR /app
+
+RUN apt update && apt install -y zip
+
 RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
 	&& echo "Asia/Shanghai" > /etc/timezone \
 	&& pip install --upgrade pip \
