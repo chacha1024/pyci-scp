@@ -23,7 +23,7 @@ class SocksClientConnection:
 
 async def zip_local(source_dir):
     proc = await asyncio.create_subprocess_shell(
-        f'zip -r {source_dir}.zip {source_dir}',
+        f'zip -r tmp.zip {source_dir}',
         stdout=asyncio.subprocess.PIPE,
         stderr=asyncio.subprocess.PIPE,
     )
@@ -31,7 +31,7 @@ async def zip_local(source_dir):
     if proc.returncode != 0:
         print(f'zip ERROR! {stderr.decode()}')
         return None
-    return f'{source_dir}.zip'
+    return f'tmp.zip'
 
 
 async def run_scp(source_dir, target_dir, host, port, username, password=None, private_key=None, proxy=None) -> None:
@@ -59,7 +59,7 @@ async def run_scp(source_dir, target_dir, host, port, username, password=None, p
             print(f'{host}: Start upload {source_dir} to {target_dir} ...')
 
             await conn.run(f'mkdir -p {target_dir}/tmp')
-            await asyncssh.scp(srcpaths=zip_file, dstpath=(conn, f'{target_dir}/tmp'), recurse=True, preserve=True)
+            await asyncssh.scp(srcpaths=zip_file, dstpath=(conn, f'{target_dir}/tmp/{zip_file}'), recurse=True, preserve=True)
             print(f'{host}: ok! cost: {time.monotonic() - time_start:.2f} s')
             print(f'{host}: Start unzip {zip_file} ...')
             time_start = time.monotonic()
