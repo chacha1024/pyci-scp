@@ -32,12 +32,16 @@ async def zip_local(source_dir):
     if proc.returncode != 0:
         print(f'zip ERROR! {stderr.decode()}')
         return None
+    ls_out = '\n'.join(os.listdir("."))
+    print(f'zip ok! {ls_out}')
     return f'tmp.zip'
 
 
 async def run_scp(source_dir, target_dir, host, port, username, password=None, private_key=None, proxy=None) -> None:
     scp_start = time.monotonic()
     try:
+        ls_out = f'\n{host}:'.join(os.listdir("."))
+        print(f'{host}: {ls_out}')
         zip_file = f'tmp.zip'
         client_keys = [asyncssh.import_private_key(private_key)] if private_key else []
         time_start = time.monotonic()
