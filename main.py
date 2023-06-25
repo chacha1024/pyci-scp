@@ -22,6 +22,7 @@ class SocksClientConnection:
 
 
 async def zip_local(source_dir):
+    print(f'start zip {source_dir}')
     proc = await asyncio.create_subprocess_shell(
         f'zip -r tmp.zip {source_dir}',
         stdout=asyncio.subprocess.PIPE,
@@ -37,9 +38,7 @@ async def zip_local(source_dir):
 async def run_scp(source_dir, target_dir, host, port, username, password=None, private_key=None, proxy=None) -> None:
     scp_start = time.monotonic()
     try:
-        zip_file = await zip_local(source_dir)
-        if zip_file is None:
-            raise Exception('zip error!')
+        zip_file = f'tmp.zip'
         client_keys = [asyncssh.import_private_key(private_key)] if private_key else []
         time_start = time.monotonic()
         tunnel = SocksClientConnection(proxy) if proxy else ()
@@ -75,6 +74,9 @@ async def run_scp(source_dir, target_dir, host, port, username, password=None, p
 
 
 async def run(source_dir, target_dir, host_raw, username, password=None, private_key=None, proxy=None):
+    zip_file = await zip_local(source_dir)
+    if not zip_file:
+        raise Exception(f'zip error: {source_dir}')
     tasks = []
     if not any((password, private_key)):
         raise ValueError('password and private_key must have one')
