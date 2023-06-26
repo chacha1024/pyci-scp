@@ -32,17 +32,14 @@ async def zip_local(source_dir):
     if proc.returncode != 0:
         print(f'zip ERROR! {stderr.decode()}')
         return None
-    ls_out = '\n'.join(os.listdir("."))
-    print(f'zip ok! {ls_out}')
+    print(f'zip ok!')
     return f'tmp.zip'
 
 
 async def run_scp(source_dir, target_dir, host, port, username, password=None, private_key=None, proxy=None) -> None:
     scp_start = time.monotonic()
     try:
-        ls_out = f'\n{host}:'.join(os.listdir("."))
-        print(f'{host}: {ls_out}')
-        zip_file = f'tmp.zip'
+        zip_file = f'./tmp.zip'
         client_keys = [asyncssh.import_private_key(private_key)] if private_key else []
         time_start = time.monotonic()
         tunnel = SocksClientConnection(proxy) if proxy else ()
@@ -68,9 +65,9 @@ async def run_scp(source_dir, target_dir, host, port, username, password=None, p
             time_start = time.monotonic()
             await conn.run(f'unzip -o {target_dir}/tmp/{zip_file} -d {target_dir}')
             print(f'{host}: unzip ok! cost: {time.monotonic() - time_start:.2f} s')
-            print(f'{host}: Start remove {target_dir}/tmp')
-            await conn.run(f'rm -rf {target_dir}/tmp')
-            print(f'{host}: remove ok!')
+            # print(f'{host}: Start remove {target_dir}/tmp')
+            # await conn.run(f'rm -rf {target_dir}/tmp')
+            # print(f'{host}: remove ok!')
     except Exception as e:
         print(f'{host}: ERROR! {e} {type(e)}')
     finally:
